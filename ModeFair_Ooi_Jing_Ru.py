@@ -1,16 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[148]:
-
-
 import random
 from copy import deepcopy
 import math
-
-
-# In[149]:
-
 
 # initialize data
 # depot (latitude, longitude)
@@ -35,14 +25,12 @@ vehicles = [
 ]
 
 
-# In[150]:
-
-
 # calculate vehicle travel distance given latitude & longitude of two locations
 def calculate_distance(loc1, loc2):
     loc1x, loc1y = loc1
     loc2x, loc2y = loc2
     return 100 * math.sqrt((loc2y - loc1y)**2 + (loc2x - loc1x)**2)
+
 
 # initialize population of first generation
 def first_generation(customers, vehicle_types, population_size):
@@ -83,6 +71,7 @@ def first_generation(customers, vehicle_types, population_size):
         population.append(chromosome)
     return population
 
+
 # calculate total distance of each chromosome
 def calculate_total_distance(route):
     total_distance = 0
@@ -96,7 +85,8 @@ def calculate_total_distance(route):
     # end route at depot
     total_distance += calculate_distance(previous_location, depot)
     return total_distance
-    
+
+
 # calculate fitness value of each chromosome
 def calculate_fitness(chromosome):
     total_cost = 0
@@ -111,9 +101,6 @@ def calculate_fitness(chromosome):
         distance_travelled += calculate_total_distance(route)
         total_cost += distance_travelled * vehicle['cost']   # cost in RM
     return total_cost
-
-
-# In[151]:
 
 
 # crossover two parent chromosomes to generate new two new chromosomes
@@ -132,6 +119,7 @@ def crossover(parent1, parent2):
     
     return child1, child2
 
+
 # random mutation of chromosome
 def mutate(chromosome, mutation_rate = 0.05):
     mutated_chromosome  = deepcopy(chromosome)  # create a clone to avoid modifying the original
@@ -144,6 +132,7 @@ def mutate(chromosome, mutation_rate = 0.05):
                 i, j = random.sample(range(len(route)), 2)
                 route[i], route[j] = route[j], route[i]
     return mutated_chromosome
+
 
 # tournament selection
 def tournament_selection(population, tournament_size):
@@ -171,9 +160,6 @@ def tournament_selection(population, tournament_size):
     return selected
 
 
-# In[152]:
-
-
 # create new population
 def create_new_population(population, tournament_size, mutation_rate):
     new_population = []
@@ -189,6 +175,7 @@ def create_new_population(population, tournament_size, mutation_rate):
         if len(new_population) < len(population):
             new_population.append(mutated_child2)
     return new_population
+
 
 # genetic algorithm function
 def genetic_algorithm(customers, vehicles, population_size = 50, generations = 100, tournament_size = 3, mutation_rate = 0.05):
@@ -208,6 +195,7 @@ def genetic_algorithm(customers, vehicles, population_size = 50, generations = 1
     best_cost = calculate_fitness(best_chromosome)
     return best_chromosome, best_cost
 
+
 # check if all customers are assigned exactly once
 def check_valid_solution(solution, num_customers):
     assigned_customers = set()
@@ -218,8 +206,8 @@ def check_valid_solution(solution, num_customers):
             assigned_customers.add(customer[0])
     return len(assigned_customers) == num_customers
 
+# main function starts here to run genetic algorithm
 def main():
-    # main function starts here to run genetic algorithm
     best_solution, best_cost = genetic_algorithm(customers, vehicles)  
     
     # calculate total distance of the solution
@@ -257,29 +245,7 @@ def main():
     
 
 
-# In[135]:
-
-
 if __name__ == "__main__":
     main()
-
-
-# In[153]:
-
-
-if __name__ == "__main__":
-    main()
-
-
-# In[154]:
-
-
-if __name__ == "__main__":
-    main()
-
-
-# In[ ]:
-
-
 
 
